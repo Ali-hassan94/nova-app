@@ -36,3 +36,19 @@ HADOOD
 - Speech recognition ke liye phone me Google app / Speech Services chahiye.
 - Ye code yahan test nahi ho saka (yahan Android SDK nahi). Agar Gradle ya build error aaye,
   error ka screenshot bhej dein, main theek kar dunga.
+
+ONLINE BUILD (Android Studio ke baghair) - GitHub Actions, free
+1. Is zip ka sab kuch (chhupa hua .github folder samet) D:\AiAgent\jarvis-mobile me copy karein.
+2. PowerShell me:  cd D:\AiAgent\jarvis-mobile
+                   git add .
+                   git commit -m "Nova app"
+                   git push
+3. github.com/Ali-hassan94/jarvis-mobile > Actions tab > "Build Nova APK" (5-8 minute).
+4. Hara tick aane par: repo ke Releases (right side) > "Nova (latest APK)" > Nova.apk download.
+
+
+NAYA (v2): mic ki beep khatam, key sab users ke liye pehle se app me
+- Awaaz ab seedha record hoti hai aur Groq Whisper se text banti hai (beep/on-off awaaz nahi aati).
+- Groq key GitHub Secret se APK me daali jati hai: repo > Settings > Secrets and variables > Actions >
+  New repository secret > Name: GROQ_API_KEY  Value: aap ki gsk_ key. Phir Actions > Build Nova APK > Run workflow.
+- Dhyan: APK ke andar key nikali ja sakti hai. APK sirf apne bharosemand logon ko bhejein, aur repo ko Private rakhein.

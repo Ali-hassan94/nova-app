@@ -13,6 +13,14 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        // Build ke waqt GitHub Secret se key aati hai (code me nahi likhi jati)
+        val groqKey = (System.getenv("GROQ_API_KEY") ?: "").replace("\"", "").trim()
+        buildConfigField("String", "DEFAULT_GROQ_KEY", "\"$groqKey\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {

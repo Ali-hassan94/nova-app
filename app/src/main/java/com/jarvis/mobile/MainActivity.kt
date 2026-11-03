@@ -80,7 +80,7 @@ class MainActivity : Activity() {
         root.addView(status)
 
         keyInput = EditText(this)
-        keyInput.hint = "Groq API key (gsk_...)"
+        keyInput.hint = if (Config.hasBuiltInKey()) "Groq key (zaroori nahi, app me pehle se hai)" else "Groq API key (gsk_...)"
         keyInput.setHintTextColor(Color.GRAY)
         keyInput.setTextColor(Color.WHITE)
         keyInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
@@ -130,7 +130,7 @@ class MainActivity : Activity() {
             refresh()
             return
         }
-        if (prefs().getString("groq_key", "").isNullOrBlank()) {
+        if (Config.groqKey(this).isBlank()) {
             Toast.makeText(this, "Pehle Groq API key daal kar save karein", Toast.LENGTH_LONG).show()
             return
         }
@@ -161,7 +161,7 @@ class MainActivity : Activity() {
 
     private fun refresh() {
         fun mark(ok: Boolean) = if (ok) "✅" else "❌"
-        val keyOk = !prefs().getString("groq_key", "").isNullOrBlank()
+        val keyOk = Config.groqKey(this).isNotBlank()
         val mic = checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
         val acc = NovaAccessibilityService.instance != null
         val overlay = Settings.canDrawOverlays(this)
