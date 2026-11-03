@@ -12,4 +12,18 @@ object Config {
     }
 
     fun hasBuiltInKey(): Boolean = BuildConfig.DEFAULT_GROQ_KEY.isNotEmpty()
+
+    fun memories(c: Context): List<String> =
+        (prefs(c).getString("memories", "") ?: "").split("\n").filter { it.isNotBlank() }
+
+    fun addMemory(c: Context, fact: String) {
+        val l = memories(c).toMutableList()
+        l.add(fact.replace("\n", " ").trim())
+        while (l.size > 40) l.removeAt(0)
+        prefs(c).edit().putString("memories", l.joinToString("\n")).apply()
+    }
+
+    fun clearMemories(c: Context) {
+        prefs(c).edit().remove("memories").apply()
+    }
 }

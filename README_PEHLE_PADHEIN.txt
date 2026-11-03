@@ -52,3 +52,13 @@ NAYA (v2): mic ki beep khatam, key sab users ke liye pehle se app me
 - Groq key GitHub Secret se APK me daali jati hai: repo > Settings > Secrets and variables > Actions >
   New repository secret > Name: GROQ_API_KEY  Value: aap ki gsk_ key. Phir Actions > Build Nova APK > Run workflow.
 - Dhyan: APK ke andar key nikali ja sakti hai. APK sirf apne bharosemand logon ko bhejein, aur repo ko Private rakhein.
+
+
+V3 (ALIXORA AI): naye features
+- App ka naam/icon: ALIXORA AI (aap ki image). Awaaz me "Nova" ya "Alixora" dono chalta hai.
+- "YouTube par <gaana> chalao" -> search karke pehli video khud chalata hai.
+- "TikTok kholo aur har 8 second baad scroll karo" -> auto scroll. Rokne ke liye "Alixora, scroll roko".
+- Messages: "Ahmed ko WhatsApp par likho ..." (bhejna tabhi jab aap kahein "bhej do"), SMS padhna,
+  naye notifications/messages batana (3) Messages access on karna zaroori).
+- Personal baat-cheet, real-life advice, yaaddasht (memory_save), battery, screenshot, lock waghera.
+- Music/video chalte waqt Alixora sirf tab jawab deta hai jab aap uska naam lein (taake gaane ki awaaz par na chale).

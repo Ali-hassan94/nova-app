@@ -15,6 +15,7 @@ import android.text.InputType
 import android.view.Gravity
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
@@ -57,19 +58,27 @@ class MainActivity : Activity() {
 
         val root = LinearLayout(this)
         root.orientation = LinearLayout.VERTICAL
-        root.setPadding(dp(20), dp(36), dp(20), dp(20))
+        root.setPadding(dp(20), dp(24), dp(20), dp(20))
         root.setBackgroundColor(Color.parseColor("#0B1020"))
 
+        val logo = ImageView(this)
+        logo.setImageResource(R.drawable.alixora_logo)
+        logo.adjustViewBounds = true
+        logo.scaleType = ImageView.ScaleType.FIT_CENTER
+        val lp0 = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(200))
+        logo.layoutParams = lp0
+        root.addView(logo)
+
         val title = TextView(this)
-        title.text = "NOVA"
-        title.textSize = 34f
+        title.text = "ALIXORA AI"
+        title.textSize = 28f
         title.setTypeface(null, Typeface.BOLD)
         title.setTextColor(Color.parseColor("#7DD3FC"))
         title.gravity = Gravity.CENTER
         root.addView(title)
 
         val sub = TextView(this)
-        sub.text = "Personal AI Assistant · Ali Hassan"
+        sub.text = "Personal AI Assistant · Ali Hassan · Aimen Shaheen"
         sub.setTextColor(Color.parseColor("#94A3B8"))
         sub.gravity = Gravity.CENTER
         root.addView(sub)
@@ -98,7 +107,7 @@ class MainActivity : Activity() {
             val idx = langs.indexOfFirst { it.first == cur }
             prefs().edit().putString("lang", langs[(idx + 1) % langs.size].first).apply()
             refresh()
-            if (JarvisService.running) Toast.makeText(this, "Nova band karke dobara shuru karein", Toast.LENGTH_SHORT).show()
+            if (JarvisService.running) Toast.makeText(this, "Band karke dobara shuru karein", Toast.LENGTH_SHORT).show()
         }
         root.addView(langBtn)
 
@@ -109,19 +118,25 @@ class MainActivity : Activity() {
             startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
         })
 
+        root.addView(button("3) Messages access on karein (optional)", Color.parseColor("#7C3AED")) {
+            startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
+        })
+
         callBtn = button("", Color.parseColor("#0EA5E9")) { toggleNova() }
         callBtn.textSize = 22f
         callBtn.setPadding(0, dp(18), 0, dp(18))
         root.addView(callBtn)
 
-        scroll = ScrollView(this)
         logView = TextView(this)
         logView.setTextColor(Color.parseColor("#CBD5E1"))
-        logView.setPadding(0, dp(12), 0, 0)
-        scroll.addView(logView)
-        root.addView(scroll, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f))
+        logView.setPadding(0, dp(12), 0, dp(24))
+        root.addView(logView)
 
-        setContentView(root)
+        scroll = ScrollView(this)
+        scroll.setBackgroundColor(Color.parseColor("#0B1020"))
+        scroll.isFillViewport = true
+        scroll.addView(root)
+        setContentView(scroll)
     }
 
     private fun toggleNova() {
@@ -137,7 +152,9 @@ class MainActivity : Activity() {
         val need = mutableListOf(
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.READ_CONTACTS,
-            Manifest.permission.CALL_PHONE
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.SEND_SMS,
+            Manifest.permission.READ_SMS
         )
         if (Build.VERSION.SDK_INT >= 33) need.add(Manifest.permission.POST_NOTIFICATIONS)
         val missing = need.filter { checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED }
@@ -166,7 +183,8 @@ class MainActivity : Activity() {
         val acc = NovaAccessibilityService.instance != null
         val overlay = Settings.canDrawOverlays(this)
         status.text = "Groq key ${mark(keyOk)}   Mic ${mark(mic)}\n" +
-            "Accessibility ${mark(acc)}   Overlay ${mark(overlay)}"
+            "Accessibility ${mark(acc)}   Overlay ${mark(overlay)}\n" +
+            "Messages access ${mark(NovaNotificationListener.connected)}"
         val cur = prefs().getString("lang", "ur-PK")
         langBtn.text = "Zaban: " + (langs.firstOrNull { it.first == cur }?.second ?: "Urdu")
         callBtn.text = if (JarvisService.running) "⏹  Band karo" else "📞  Call karo"
