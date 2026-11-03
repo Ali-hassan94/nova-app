@@ -78,7 +78,7 @@ class MainActivity : Activity() {
         root.addView(title)
 
         val sub = TextView(this)
-        sub.text = "Personal AI Assistant · Ali Hassan · Aimen Shaheen"
+        sub.text = "Personal AI Assistant · Ali Hassan"
         sub.setTextColor(Color.parseColor("#94A3B8"))
         sub.gravity = Gravity.CENTER
         root.addView(sub)
